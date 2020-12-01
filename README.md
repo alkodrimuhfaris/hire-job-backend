@@ -20,7 +20,7 @@ Request :
 ```json 
 {
     "email": "string, unique",
-    "password": "string"
+    "password": "string",
 }
 ```
 
@@ -29,7 +29,8 @@ Response :
 ```json 
 {
     "status" : "string",
-    "message" : "string"
+    "message" : "string",
+    "token" : "string, unique"
 }
 ```
 
@@ -93,6 +94,7 @@ Response :
         "photo" : "string",
     },
 }
+```
 
 ### Update Account
 
