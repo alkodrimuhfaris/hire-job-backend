@@ -375,7 +375,7 @@ Response :
 
 Request :
 - Method : PUT/PATCH
-- Endpoint : `/worker/experience`
+- Endpoint : `/worker/experience/{id_experience}`
 - Header :
     - Content-Type: application/json
     - Accept: application/json
