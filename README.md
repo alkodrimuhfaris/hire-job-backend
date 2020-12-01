@@ -143,7 +143,7 @@ Request :
 
 ```json 
 {
-    "skill" : "string",
+    "name" : "string",
 }
 ```
 
