@@ -28,6 +28,7 @@ app.use('/uploads', express.static('src/assets/uploads'))
 const auth = require('./routes/auth')
 const worker = require('./routes/worker')
 const recruiter = require('./routes/recruiter')
+const message = require('./routes/message')
 
 // // attach member router
 app.use('/auth', auth)
@@ -38,3 +39,5 @@ const validation = require('./middlewares/roleValidation')
 app.use('/worker', authValidate, validation.worker, worker)
 // Recruiter API
 app.use('/recruiter', authValidate, validation.recruiter, recruiter)
+// Message API
+app.use('/message', authValidate, message)
