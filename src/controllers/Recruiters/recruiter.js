@@ -8,12 +8,12 @@ module.exports = {
   // ACCOUNT
   getRecruiterAccount: async (req, res) => {
     try {
-      const { id } = req.params
+      const { id, roleId } = req.user
       const checkAccount = await User.findAll({
         where: {
           [Op.and]: [
             { id },
-            { roleId: 2 }
+            { roleId }
           ]
         },
         attributes: {
@@ -33,12 +33,12 @@ module.exports = {
 
   updateRecruiterAccount: async (req, res) => {
     try {
-      const { id } = req.params
+      const { id, roleId } = req.user
       const checkAccount = await User.findAll({
         where: {
           [Op.and]: [
             { id },
-            { roleId: 2 }
+            { roleId }
           ]
         }
       })
@@ -224,7 +224,7 @@ module.exports = {
   // COMPANY
   createCompany: async (req, res) => {
     try {
-      const { id } = req.params
+      const { id, roleId } = req.user
       const schema = joi.object({
         name: joi.string(),
         field: joi.string(),
@@ -235,11 +235,12 @@ module.exports = {
       if (error) {
         return response(res, `Validation: ${error}`, '', 400, false)
       } else {
+        // console.log(req.user.id)
         const checkAccount = await User.findAll({
           where: {
             [Op.and]: [
               { id },
-              { roleId: 2 }
+              { roleId }
             ]
           }
         })
@@ -278,6 +279,37 @@ module.exports = {
           return response(res, 'Account not found', '', 400, false)
         }
         // return response(res, '', { checkAccount }, 200, true)
+      }
+    } catch (err) {
+      return response(res, `Catch: ${err}`, '', 400, false)
+    }
+  },
+
+  allCompany: async (req, res) => {
+    try {
+      const results = await Company.findAll()
+      if (results.length) {
+        return response(res, 'All company', { results }, 200, true)
+      } else {
+        return response(res, 'Company not available', 400, false)
+      }
+    } catch (err) {
+      return response(res, `Catch: ${err}`, '', 400, false)
+    }
+  },
+
+  myCompany: async (req, res) => {
+    try {
+      const { id } = req.user
+      const results = await Company.findAll({
+        where: {
+          authorId: id
+        }
+      })
+      if (results.length) {
+        return response(res, 'Your company', { results }, 200, true)
+      } else {
+        return response(res, 'Dont have company', '', 400, false)
       }
     } catch (err) {
       return response(res, `Catch: ${err}`, '', 400, false)

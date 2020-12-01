@@ -1,15 +1,13 @@
 const route = require('express').Router()
-const {
-  getRecruiterAccount,
-  updateRecruiterAccount,
-  createCompany
-} = require('../controllers/Recruiters/recruiter')
+const recruiter = require('../controllers/Recruiters/recruiter')
 const uploads = require('../helpers/upload')
 
 // account
-route.get('/account/:id', getRecruiterAccount)
-route.patch('/account/:id', uploads, updateRecruiterAccount)
+route.get('/account', recruiter.getRecruiterAccount)
+route.patch('/account', uploads, recruiter.updateRecruiterAccount)
 // company
-route.post('/company/:id', uploads, createCompany)
+route.post('/company', uploads, recruiter.createCompany)
+route.get('/company', recruiter.allCompany)
+route.get('/company/self', recruiter.myCompany)
 
 module.exports = route

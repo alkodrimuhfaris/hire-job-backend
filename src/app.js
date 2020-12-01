@@ -11,13 +11,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
 app.use(cors())
 
-// import route
-const recruiter = require('./routes/recruiter')
-
-app.use('/recruiter', recruiter)
-
-app.use('/uploads', express.static('src/assets/uploads'))
-
 app.get('/', (req, res) => {
   res.send({
     success: true,
@@ -30,11 +23,11 @@ app.listen(APP_PORT, () => {
 })
 
 // provide static file
-app.use('/assets/uploads/', express.static('assets/uploads'))
+app.use('/uploads', express.static('src/assets/uploads'))
 
 const auth = require('./routes/auth')
 const worker = require('./routes/worker')
-// const recuiter = require('./routes/recuiter')
+const recruiter = require('./routes/recruiter')
 
 // // attach member router
 app.use('/auth', auth)
@@ -43,5 +36,5 @@ app.use('/auth', auth)
 const authValidate = require('./middlewares/auth')
 const validation = require('./middlewares/roleValidation')
 app.use('/worker', authValidate, validation.worker, worker)
-// Recuiter API
-// app.use('/recuiter', authValidate, validation.recuiter, recuiter)
+// Recruiter API
+app.use('/recruiter', authValidate, validation.recruiter, recruiter)
