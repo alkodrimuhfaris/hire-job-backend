@@ -10,17 +10,21 @@ app.use(cors())
 app.use(morgan('dev'))
 
 // import routes
-const loginWorker = require('./routes/worker/login')
-const registerWorker = require('./routes/worker/register')
+// const loginWorker = require('./routes/worker/login')
+// const registerWorker = require('./routes/worker/register')
 
-const loginRecruiter = require('./routes/recruiter/login')
-const registerRecruiter = require('./routes/recruiter/register')
+// const loginRecruiter = require('./routes/recruiter/login')
+// const registerRecruiter = require('./routes/recruiter/register')
 
-app.use('/login/worker', loginWorker)
-app.use('/register/worker', registerWorker)
+const auth = require('./routes/auth')
 
-app.use('/login/recruiter', loginRecruiter)
-app.use('/register/recruiter', registerRecruiter)
+// app.use('/login/worker', loginWorker)
+// app.use('/register/worker', registerWorker)
+
+// app.use('/login/recruiter', loginRecruiter)
+// app.use('/register/recruiter', registerRecruiter)
+
+app.use('/auth', auth)
 
 app.get('/', (req, res) => {
   res.send({
