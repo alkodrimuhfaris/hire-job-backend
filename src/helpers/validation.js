@@ -37,6 +37,19 @@ module.exports = {
     jobTitle: Joi.string().required()
   }),
 
+  ValidateResetPassword: Joi.object({
+    email: Joi.string().email().required()
+  }),
+
+  ResetPassword: Joi.object({
+    newPassword: Joi.string()
+      .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+      .required(),
+    confirmPassword: Joi.string()
+      .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+      .required()
+  }),
+
   Account: Joi.object({
     name: Joi.string(),
     email: Joi.string().email(),

@@ -7,6 +7,8 @@ const responseStandart = require('../../helpers/response')
 const signupWorkerSchema = schema.SignupWorker
 const signupRecruiterSchema = schema.SignupRecruiter
 const loginSchema = schema.Login
+const ValidateResetPasswordSchema = schema.ValidateResetPassword
+const ResetPasswordSchema = schema.ResetPassword
 
 module.exports = {
   login: async (req, res) => {
@@ -94,6 +96,65 @@ module.exports = {
         }
       } else {
         return responseStandart(res, 'Email already used', {}, 400, false)
+      }
+    } catch (e) {
+      return responseStandart(res, e, {}, 400, false)
+    }
+  },
+
+  validateResetPass: async (req, res) => {
+    try {
+      const result = await ValidateResetPasswordSchema.validateAsync(req.body)
+      const validate = await User.findOne({
+        attributes: [
+          'id',
+          'name',
+          'email'
+        ],
+        where: {
+          email: result.email
+        }
+      })
+      if (validate !== null) {
+        return responseStandart(res, 'Email Valid', { validate })
+      } else {
+        return responseStandart(
+          res,
+          'The user is not registered yet',
+          {},
+          400,
+          false
+        )
+      }
+    } catch (e) {
+      return responseStandart(res, e, {}, 400, false)
+    }
+  },
+
+  changePass: async (req, res) => {
+    try {
+      const result = await ResetPasswordSchema.validateAsync(req.body)
+      if (result.newPassword === result.confirmPassword) {
+        const saltRounds = 10
+        const salt = await bcrypt.genSaltSync(saltRounds)
+        const hash = await bcrypt.hashSync(result.newPassword, salt)
+        const dataUser = {
+          password: hash
+        }
+        await User.update(dataUser, {
+          where: {
+            id: req.params.id
+          }
+        })
+        return responseStandart(res, 'Change Password Success', {})
+      } else {
+        return responseStandart(
+          res,
+          'Passwords are not the same',
+          {},
+          400,
+          false
+        )
       }
     } catch (e) {
       return responseStandart(res, e, {}, 400, false)
