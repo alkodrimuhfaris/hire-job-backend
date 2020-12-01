@@ -24,7 +24,7 @@ module.exports = {
         )
         if (comparePass) {
           jwt.sign(
-            { id: validate[0].id, rolesId: validate[0].rolesId },
+            { id: validate[0].id, roleId: validate[0].roleId },
             process.env.APP_KEY,
             { expiresIn: '2 days' },
             function (err, token) {
@@ -63,7 +63,7 @@ module.exports = {
           password: hash,
           company: result.company,
           jobTitle: result.jobTitle,
-          rolesId: req.params.id
+          roleId: req.params.id
         }
       } else if (parseInt(req.params.id) === 2) {
         const result = await signupWorkerSchema
@@ -75,7 +75,7 @@ module.exports = {
           email: result.email,
           phoneNumber: result.phoneNumber,
           password: hash,
-          rolesId: req.params.id
+          roleId: req.params.id
         }
       } else {
         return responseStandart(res, 'role user not valid', {}, 500, false)

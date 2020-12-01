@@ -26,7 +26,7 @@ app.listen(APP_PORT, () => {
 app.use('/assets/uploads/', express.static('assets/uploads'))
 
 const auth = require('./routes/auth')
-// const worker = require('./routes/worker')
+const worker = require('./routes/worker')
 // const recuiter = require('./routes/recuiter')
 
 // // attach member router
@@ -35,6 +35,6 @@ app.use('/auth', auth)
 // Work API
 const authValidate = require('./middlewares/auth')
 const validation = require('./middlewares/roleValidation')
-// app.use('/worker', authValidate, validation, worker)
+app.use('/worker', authValidate, validation.worker, worker)
 // Recuiter API
-// app.use('/recuiter', authValidate, validation.saller, recuiter)
+// app.use('/recuiter', authValidate, validation.recuiter, recuiter)
