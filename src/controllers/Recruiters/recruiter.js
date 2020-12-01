@@ -1,0 +1,286 @@
+const { User, Company } = require('../../models')
+const { Op } = require('sequelize')
+// const bcrypt = require('bcrypt')
+const response = require('../../helpers/response')
+const joi = require('joi')
+
+module.exports = {
+  // ACCOUNT
+  getRecruiterAccount: async (req, res) => {
+    try {
+      const { id } = req.params
+      const checkAccount = await User.findAll({
+        where: {
+          [Op.and]: [
+            { id },
+            { roleId: 2 }
+          ]
+        },
+        attributes: {
+          exclude: ['password']
+        }
+      })
+      if (checkAccount.length) {
+        const results = checkAccount
+        return response(res, 'Your account', { results }, 200, true)
+      } else {
+        return response(res, 'Id not found', '', 404, false)
+      }
+    } catch (err) {
+      return response(res, `Catch: ${err}`, '', 400, false)
+    }
+  },
+
+  updateRecruiterAccount: async (req, res) => {
+    try {
+      const { id } = req.params
+      const checkAccount = await User.findAll({
+        where: {
+          [Op.and]: [
+            { id },
+            { roleId: 2 }
+          ]
+        }
+      })
+      if (checkAccount.length) {
+        // jika tidak ada photo
+        if (req.file === undefined) {
+          const schema = joi.object({
+            name: joi.string(),
+            email: joi.string(),
+            phoneNumber: joi.string(),
+            instagram: joi.string(),
+            github: joi.string(),
+            linkedin: joi.string(),
+            jobTilte: joi.string(),
+            address: joi.string(),
+            company: joi.string(),
+            bio: joi.string()
+          })
+          const { value, error } = schema.validate(req.body)
+          //  console.log(value)
+          const {
+            name, email, phoneNumber, instagram,
+            github, linkedin, jobTilte, address,
+            company, bio
+          } = value
+          if (error) {
+            return response(res, `Validation: ${error}`, '', 400, false)
+          } else {
+            const myEmail = checkAccount[0].email
+            const myPhone = checkAccount[0].phoneNumber
+            // check email
+            const checkAnotherEmail = await User.findAll({
+              where: {
+                email: {
+                  [Op.ne]: myEmail
+                }
+              }
+            })
+            // check email
+            const mapEmail = await checkAnotherEmail.map(o => {
+              return o.email
+            })
+            // console.log('nameeee', name)
+            const checkSameEmail = await mapEmail.some(item => item === email)
+            if (checkSameEmail) {
+              return response(res, 'Email already registerd', '', 400, false)
+            } else {
+              // cek phone
+              const checkAnotherPhone = await User.findAll({
+                where: {
+                  phoneNumber: {
+                    [Op.ne]: myPhone
+                  }
+                }
+              })
+              // check phone
+              const mapPhone = await checkAnotherPhone.map(o => {
+                return o.phoneNumber
+              })
+              const checkSamePhone = await mapPhone.some(item => item === phoneNumber)
+              if (checkSamePhone) {
+                return response(res, 'Phone number already registerd', '', 400, false)
+              } else {
+                const data = {
+                  name,
+                  email,
+                  phoneNumber,
+                  instagram,
+                  github,
+                  linkedin,
+                  jobTilte,
+                  address,
+                  company,
+                  bio
+                }
+                //  console.log(data)
+                const results = await User.update(data, {
+                  where: { id }
+                })
+                if (results) {
+                  return response(res, 'Edit has been updated', '', 200, true)
+                } else {
+                  return response(res, 'Fail to update', '', 400, false)
+                }
+              }
+            }
+          }
+          // jika ada photo
+        } else {
+          //  console.log(req.file)
+          const photo = `uploads/${req.file.filename}`
+          const schema = joi.object({
+            name: joi.string(),
+            email: joi.string(),
+            phoneNumber: joi.string(),
+            instagram: joi.string(),
+            github: joi.string(),
+            linkedin: joi.string(),
+            jobTilte: joi.string(),
+            address: joi.string(),
+            company: joi.string(),
+            bio: joi.string()
+          })
+          const { value, error } = schema.validate(req.body)
+          //  console.log(value)
+          const {
+            name, email, phoneNumber, instagram,
+            github, linkedin, jobTilte, address,
+            company, bio
+          } = value
+          if (error) {
+            return response(res, `Validation: ${error}`, '', 400, false)
+          } else {
+            const myEmail = checkAccount[0].email
+            const myPhone = checkAccount[0].phoneNumber
+            // check email
+            const checkAnotherEmail = await User.findAll({
+              where: {
+                email: {
+                  [Op.ne]: myEmail
+                }
+              }
+            })
+            // check email
+            const mapEmail = await checkAnotherEmail.map(o => {
+              return o.email
+            })
+            // console.log('nameeee', name)
+            const checkSameEmail = await mapEmail.some(item => item === email)
+            if (checkSameEmail) {
+              return response(res, 'Email already registerd', '', 400, false)
+            } else {
+              // cek phone
+              const checkAnotherPhone = await User.findAll({
+                where: {
+                  phoneNumber: {
+                    [Op.ne]: myPhone
+                  }
+                }
+              })
+              // check phone
+              const mapPhone = await checkAnotherPhone.map(o => {
+                return o.phoneNumber
+              })
+              const checkSamePhone = await mapPhone.some(item => item === phoneNumber)
+              if (checkSamePhone) {
+                return response(res, 'Phone number already registerd', '', 400, false)
+              } else {
+                const data = {
+                  name,
+                  email,
+                  phoneNumber,
+                  instagram,
+                  github,
+                  linkedin,
+                  jobTilte,
+                  address,
+                  company,
+                  bio,
+                  photo
+                }
+                //  console.log(data)
+                const results = await User.update(data, {
+                  where: { id }
+                })
+                if (results) {
+                  return response(res, 'Edit has been updated', '', 200, true)
+                } else {
+                  return response(res, 'Fail to update', '', 400, false)
+                }
+              }
+            }
+          }
+        }
+      } else {
+        return response(res, 'You are not recruiter', '', 400, false)
+      }
+    } catch (err) {
+      return response(res, `Catch: ${err}`, '', 400, false)
+    }
+  },
+
+  // COMPANY
+  createCompany: async (req, res) => {
+    try {
+      const { id } = req.params
+      const schema = joi.object({
+        name: joi.string(),
+        field: joi.string(),
+        city: joi.string()
+      })
+      const { value, error } = schema.validate(req.body)
+      const { name, field, city } = value
+      if (error) {
+        return response(res, `Validation: ${error}`, '', 400, false)
+      } else {
+        const checkAccount = await User.findAll({
+          where: {
+            [Op.and]: [
+              { id },
+              { roleId: 2 }
+            ]
+          }
+        })
+        if (checkAccount.length) {
+          const checkAuthor = await Company.findAll({
+            where: { authorId: id }
+          })
+          console.log(checkAuthor.length)
+          if (checkAuthor.length) {
+            return response(res, 'You already have a company', '', 400, false)
+          } else {
+            if (req.file === undefined) {
+              const data = {
+                name, field, city, authorId: id
+              }
+              const results = await Company.create(data)
+              if (results) {
+                return response(res, 'Company has benn added', '', 200, true)
+              } else {
+                return response(res, 'Fail to add company', '', 400, false)
+              }
+            } else {
+              const photo = `uploads/${req.file.filename}`
+              const data = {
+                name, field, city, authorId: id, photo
+              }
+              const results = await Company.create(data)
+              if (results) {
+                return response(res, 'Company has benn added', '', 200, true)
+              } else {
+                return response(res, 'Fail to add company', '', 400, false)
+              }
+            }
+          }
+        } else {
+          return response(res, 'Account not found', '', 400, false)
+        }
+        // return response(res, '', { checkAccount }, 200, true)
+      }
+    } catch (err) {
+      return response(res, `Catch: ${err}`, '', 400, false)
+    }
+  }
+}
