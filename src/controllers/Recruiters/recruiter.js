@@ -314,5 +314,81 @@ module.exports = {
     } catch (err) {
       return response(res, `Catch: ${err}`, '', 400, false)
     }
+  },
+
+  paramsCompany: async (req, res) => {
+    try {
+      const { id } = req.params
+      const results = await Company.findAll({
+        where: {
+          id
+        }
+      })
+      if (results.length) {
+        return response(res, 'Your company', { results }, 200, true)
+      } else {
+        return response(res, 'Company not found', '', 400, false)
+      }
+    } catch (err) {
+      return response(res, `Catch: ${err}`, '', 400, false)
+    }
+  },
+
+  updateCompany: async (req, res) => {
+    try {
+      const { id } = req.user
+      const checkCompanyUser = await Company.findAll({
+        where: {
+          authorId: id
+        }
+      })
+      if (checkCompanyUser.length) {
+        const schema = joi.object({
+          name: joi.string(),
+          field: joi.string(),
+          city: joi.string()
+        })
+        const { value, error } = schema.validate(req.body)
+        const { name, field, city } = value
+        if (error) {
+          return response(res, `Valdidation: ${error}`, '', 400, false)
+        } else {
+          if (req.file === undefined) {
+            const data = {
+              name, field, city
+            }
+            const results = await Company.update(data, {
+              where: {
+                authorId: id
+              }
+            })
+            if (results) {
+              return response(res, 'Company has been updated', { results }, 200, true)
+            } else {
+              return response(res, 'Fail to update', '', 400, false)
+            }
+          } else {
+            const photo = `uploads/${req.file.filename}`
+            const data = {
+              name, field, city, photo
+            }
+            const results = await Company.update(data, {
+              where: {
+                authorId: id
+              }
+            })
+            if (results) {
+              return response(res, 'Company has been updated', '', 200, true)
+            } else {
+              return response(res, 'Fail to update', '', 400, false)
+            }
+          }
+        }
+      } else {
+        return response(res, 'You dont have company yet', '', 400, false)
+      }
+    } catch (err) {
+      return response(res, `Catch: ${err}`, '', 400, false)
+    }
   }
 }
