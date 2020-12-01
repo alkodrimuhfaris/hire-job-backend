@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   WorkExperience.init({
     companyId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    position: DataTypes.INTEGER,
+    position: DataTypes.STRING,
     startAt: DataTypes.DATEONLY,
     finishAt: DataTypes.DATEONLY,
     description: DataTypes.TEXT
