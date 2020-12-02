@@ -3,6 +3,7 @@ const { Op } = require('sequelize')
 const joi = require('joi')
 const io = require('../../app')
 const response = require('../../helpers/response')
+const pagination = require('../../helpers/pagination')
 
 module.exports = {
   sendMessage: async (req, res) => {
@@ -133,12 +134,19 @@ module.exports = {
   listPerson: async (req, res) => {
     try {
       const myAccount = req.user.id
-      const { search, page, limit } = req.query
+      const { search, sortBy = 'createdAt', sortType = 'DESC' } = req.query
+      // searching berdasaran nama compay
+      let results = []
+      let count = 0
+      const path = 'message/list/person'
+      const { limit, page, offset } = pagination.pagePrep(req.query)
       // console.log(req.query)
       // jika query search ada
       // searching berdasarkan pesan
       if (search) {
-        const selectSearch = await Message.findAll({
+        ({ count, rows: results } = await Message.findAndCountAll({
+          limit,
+          offset,
           where: {
             [Op.and]: [
               {
@@ -154,6 +162,9 @@ module.exports = {
               }
             ]
           },
+          order: [
+            [sortBy, sortType]
+          ],
           include: [
             {
               model: User,
@@ -188,11 +199,13 @@ module.exports = {
               }
             }
           ]
-        })
-        const results = selectSearch
-        return response(res, 'Your searching', { results }, 200, true)
+        }))
+        const pageInfo = pagination.paging(path, req, count, page, limit)
+        return response(res, 'Your searching', { results, pageInfo }, 200, true)
       } else {
-        const list = await Message.findAll({
+        ({ count, rows: results } = await Message.findAndCountAll({
+          limit,
+          offset,
           where: {
             [Op.or]: [
               {
@@ -217,6 +230,9 @@ module.exports = {
               }
             ]
           },
+          order: [
+            [sortBy, sortType]
+          ],
           include: [
             {
               model: User,
@@ -250,16 +266,13 @@ module.exports = {
                 ]
               }
             }
-          ],
-          order: [
-            ['createdAt', 'DESC']
           ]
-        })
-        if (list.length) {
-          const results = list
-          return response(res, 'Your list chat', { results }, 200, true)
+        }))
+        const pageInfo = pagination.paging(path, req, count, page, limit)
+        if (results.length) {
+          return response(res, 'Your list chat', { results, pageInfo }, 200, true)
         } else {
-          return response(res, 'You dont have chat yet', '', 400, false)
+          return response(res, 'You dont have chat yet', { results, pageInfo }, 200, true)
         }
       }
     } catch (err) {
@@ -271,11 +284,18 @@ module.exports = {
     try {
       const { id } = req.params
       const myAccount = req.user.id
-      const { search, pagination, limit, sortBy, sortType } = req.query
+      const { search, sortBy = 'createdAt', sortType = 'DESC' } = req.query
+      // searching berdasaran nama compay
+      let results = []
+      let count = 0
+      const path = `message/list/chat/${id}`
+      const { limit, page, offset } = pagination.pagePrep(req.query)
       // jika search
       // searching berdasarkan pesan
       if (search) {
-        const searching = await Message.findAll({
+        ({ count, rows: results } = await Message.findAndCountAll({
+          limit,
+          offset,
           where: {
             [Op.and]: [
               {
@@ -344,17 +364,19 @@ module.exports = {
             }
           ],
           order: [
-            ['createdAt', 'DESC']
+            [sortBy, sortType]
           ]
-        })
-        if (searching.length) {
-          const results = searching
-          return response(res, `Your search chat with id ${id}`, { results }, 200, true)
+        }))
+        const pageInfo = pagination.paging(path, req, count, page, limit)
+        if (results.length) {
+          return response(res, `Your search chat with id ${id}`, { results, pageInfo }, 200, true)
         } else {
-          return response(res, 'Search not found', '', 400, false)
+          return response(res, 'Search not found', { results, pageInfo }, 200, true)
         }
       } else {
-        const detailChat = await Message.findAll({
+        ({ count, rows: results } = await Message.findAndCountAll({
+          limit,
+          offset,
           where: {
             [Op.or]: [
               {
@@ -414,14 +436,14 @@ module.exports = {
             }
           ],
           order: [
-            ['createdAt', 'DESC']
+            [sortBy, sortType]
           ]
-        })
-        if (detailChat.length) {
-          const results = detailChat
-          return response(res, `Your chat with id ${id}`, { results }, 200, true)
+        }))
+        const pageInfo = pagination.paging(path, req, count, page, limit)
+        if (results.length) {
+          return response(res, `Your chat with id ${id}`, { results, pageInfo }, 200, true)
         } else {
-          return response(res, `You never chat with id ${id}`, '', 400, false)
+          return response(res, `You never chat with id ${id}`, { results, pageInfo }, 200, true)
         }
       }
     } catch (err) {
