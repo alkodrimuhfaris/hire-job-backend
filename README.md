@@ -277,6 +277,13 @@ Request :
 - Endpoint : `/worker/skill/list`
 - Header :
     - Accept: application/json
+- Body :
+
+```json 
+{
+    "name" : "string",
+}
+```
 
 Response :
 
@@ -696,6 +703,90 @@ Response :
 }
 ```
 
+### Home Worker
+
+Request :
+- Method : GET
+- Endpoint : `/worker/home`
+- Header :
+    - Accept: application/json
+- Query Param :
+    - search: string,
+    - page: number || `1`,
+    - limit: number || `10`,
+    - sortBy: string || `name`,
+    - sortType: string || `DESC`,
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string",
+    "pageInfo" : {
+        "count" : "number",
+        "pages" : "number",
+        "limit" : "number",
+        "nextLink" : "string",
+        "prevLink" : "string",
+    },
+    "results" : [
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "Company" : {
+                "id" : "integer, PK",
+                "authorId" : "integer",
+                "name" : "string",
+                "field" : "string",
+                "city" : "string",
+                "photo" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+        },
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "Company" : {
+                "id" : "integer, PK",
+                "authorId" : "integer",
+                "name" : "string",
+                "field" : "string",
+                "city" : "string",
+                "photo" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+        },
+    ]
+}
+```
+
 ## Recruiter API
 
 ### Get Account
@@ -725,13 +816,6 @@ Response :
         "linkedin" : "string",
         "bio" : "string",
         "photo" : "string",
-        // "Company" : {
-        //     "id" : "integer, PK",
-        //     "name" : "string",
-        //     "field" : "string",
-        //     "city" : "string",
-        //     "photo" : "string",
-        // }
     },
 }
 ```
@@ -759,10 +843,6 @@ Request :
     "company" : "string",
     "bio" : "string",
     "photo" : "string",
-    // "companyName" : "string",
-    // "companyField" : "string",
-    // "companyCity" : "string",
-    // "companyPhoto" : "string",
 }
 ```
 
@@ -829,6 +909,99 @@ Response :
     },
 }
 ```
+
+### Home Recruiter
+
+Request :
+- Method : GET
+- Endpoint : `/recruiter/home`
+- Header :
+    - Accept: application/json
+- Query Param :
+    - search: string,
+    - page: number || `1`,
+    - limit: number || `10`,
+    - sortBy: string || `name`,
+    - sortType: string || `DESC`,
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string",
+    "pageInfo" : {
+        "count" : "number",
+        "pages" : "number",
+        "limit" : "number",
+        "nextLink" : "string",
+        "prevLink" : "string",
+    },
+    "results" : [
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "skill" : [
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                }
+            ],
+            "countSkill": "integer"
+        },
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "skill" : [
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                }
+            ],
+            "countSkill": "integer"
+        },
+    ]
+}
 
 ## Message API
 
