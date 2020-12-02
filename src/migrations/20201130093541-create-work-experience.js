@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       position: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       startAt: {
         type: Sequelize.DATEONLY

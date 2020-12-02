@@ -1,3 +1,7 @@
+<<<<<<< HEAD
 node_modules
 .env
 src/assets/uploads/
+=======
+node_modules
+>>>>>>> e0c938e8890a93eb3333e5f4cf3423b30c699d10

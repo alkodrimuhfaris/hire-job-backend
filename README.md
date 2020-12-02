@@ -49,8 +49,63 @@ Response :
     "email": "string, unique",
     "phoneNumber": "string",
     "password": "string",
+    "confirmPassword": "string",
     "company": "string",
     "jobTitle": "string",
+}
+```
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string"
+}
+```
+
+### Validation Reset Password
+
+- Method : GET
+- Endpoint : `/auth/reset/password`
+- Header :
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+
+```json 
+{
+    "email": "string, unique",
+}
+```
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string",
+    "validate" : {
+        "id": "integer, PK",
+        "email": "string, unique",
+        "name": "string"
+    }
+}
+```
+
+### Reset Password
+
+- Method : PUT
+- Endpoint : `/auth/reset/password/{id_user}`
+- Header :
+    - Content-Type: application/json
+    - Accept: application/json
+- Body :
+
+```json 
+{
+    "newPassword": "string",
+    "confirmPassword": "string",
 }
 ```
 
@@ -143,7 +198,7 @@ Request :
 
 ```json 
 {
-    "skill" : "string",
+    "name" : "string",
 }
 ```
 
@@ -320,7 +375,7 @@ Response :
 
 Request :
 - Method : PUT/PATCH
-- Endpoint : `/worker/experience`
+- Endpoint : `/worker/experience/{id_experience}`
 - Header :
     - Content-Type: application/json
     - Accept: application/json

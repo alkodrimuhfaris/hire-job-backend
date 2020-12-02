@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Portofolio.init({
     name: DataTypes.STRING,
-    description: DataTypes.STRING,
+    description: DataTypes.TEXT,
     publicLink: DataTypes.STRING,
     repoLink: DataTypes.STRING,
     company: DataTypes.STRING,
