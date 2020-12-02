@@ -68,7 +68,7 @@ module.exports = {
   }),
 
   WorkExperience: Joi.object({
-    companyId: Joi.number().integer().positive(),
+    companyName: Joi.string(),
     position: Joi.string(),
     startAt: Joi.date(),
     finishAt: Joi.date(),

@@ -361,7 +361,7 @@ Request :
 
 ```json 
 {
-    "companyId" : "integer",
+    "companyName" : "string",
     "position" : "string",
     "startAt" : "date",
     "finishAt" : "date",
@@ -390,7 +390,7 @@ Request :
 
 ```json 
 {
-    "companyId" : "integer",
+    "companyName" : "integer",
     "position" : "string",
     "startAt" : "date",
     "finishAt" : "date",
