@@ -6,6 +6,9 @@ const cors = require('cors')
 
 const app = express()
 const { APP_PORT } = process.env
+const server = require('http').createServer(app)
+const io = require('socket.io')(server, {})
+module.exports = io
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(morgan('dev'))
@@ -18,12 +21,8 @@ app.get('/', (req, res) => {
   })
 })
 
-app.listen(APP_PORT, () => {
-  console.log(`app listen on port ${APP_PORT}`)
-})
-
 // provide static file
-app.use('/uploads', express.static('src/assets/uploads'))
+app.use('/uploads', express.static('assets/uploads'))
 
 const auth = require('./routes/auth')
 const worker = require('./routes/worker')
@@ -41,3 +40,12 @@ app.use('/worker', authValidate, validation.worker, worker)
 app.use('/recruiter', authValidate, validation.recruiter, recruiter)
 // Message API
 app.use('/message', authValidate, message)
+
+// REALTIME
+io.on('connection', socket => {
+  console.log(`App connect: ${socket}`)
+})
+
+server.listen(APP_PORT, () => {
+  console.log(`app listen on port ${APP_PORT}`)
+})

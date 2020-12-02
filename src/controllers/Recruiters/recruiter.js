@@ -287,11 +287,36 @@ module.exports = {
 
   allCompany: async (req, res) => {
     try {
-      const results = await Company.findAll()
-      if (results.length) {
-        return response(res, 'All company', { results }, 200, true)
+      const { search, page, limit, sortBy, sortType } = req.query
+      // searching berdasaran nama compay
+      if (search) {
+        const searching = await Company.findAll({
+          where: {
+            name: {
+              [Op.like]: `%${search}%`
+            }
+          },
+          order: [
+            ['createdAt', 'DESC']
+          ]
+        })
+        if (searching.length) {
+          const results = searching
+          return response(res, 'Your searching', { results }, 200, true)
+        } else {
+          return response(res, 'Not found', '', 400, false)
+        }
       } else {
-        return response(res, 'Company not available', 400, false)
+        const results = await Company.findAll({
+          order: [
+            ['createdAt', 'DESC']
+          ]
+        })
+        if (results.length) {
+          return response(res, 'All company', { results }, 200, true)
+        } else {
+          return response(res, 'Company not available', 400, false)
+        }
       }
     } catch (err) {
       return response(res, `Catch: ${err}`, '', 400, false)

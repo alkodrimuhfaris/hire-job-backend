@@ -1,6 +1,7 @@
 const { Message, User } = require('../../models')
 const { Op } = require('sequelize')
 const joi = require('joi')
+const io = require('../../app')
 const response = require('../../helpers/response')
 
 module.exports = {
@@ -52,6 +53,7 @@ module.exports = {
                 sender, recipient, message, isLates: 1
               }
               const results = await Message.create(data)
+              io.emit(recipient, { sender, message })
               if (results) {
                 return response(res, 'Message has been sent', { message }, 200, true)
               } else {
@@ -134,6 +136,7 @@ module.exports = {
       const { search, page, limit } = req.query
       // console.log(req.query)
       // jika query search ada
+      // searching berdasarkan pesan
       if (search) {
         const selectSearch = await Message.findAll({
           where: {
@@ -187,7 +190,7 @@ module.exports = {
           ]
         })
         const results = selectSearch
-        return response(res, '', { results }, 200, true)
+        return response(res, 'Your searching', { results }, 200, true)
       } else {
         const list = await Message.findAll({
           where: {
@@ -270,6 +273,7 @@ module.exports = {
       const myAccount = req.user.id
       const { search, pagination, limit, sortBy, sortType } = req.query
       // jika search
+      // searching berdasarkan pesan
       if (search) {
         const searching = await Message.findAll({
           where: {
@@ -338,6 +342,9 @@ module.exports = {
                 ]
               }
             }
+          ],
+          order: [
+            ['createdAt', 'DESC']
           ]
         })
         if (searching.length) {
@@ -405,6 +412,9 @@ module.exports = {
                 ]
               }
             }
+          ],
+          order: [
+            ['createdAt', 'DESC']
           ]
         })
         if (detailChat.length) {
