@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 app.use('/uploads', express.static('assets/uploads'))
 
 const auth = require('./routes/auth')
-const worker = require('./routes/worker')
+// const worker = require('./routes/worker')
 const recruiter = require('./routes/recruiter')
 const message = require('./routes/message')
 
@@ -35,7 +35,7 @@ app.use('/auth', auth)
 // Work API
 const authValidate = require('./middlewares/auth')
 const validation = require('./middlewares/roleValidation')
-app.use('/worker', authValidate, validation.worker, worker)
+// app.use('/worker', authValidate, validation.worker, worker)
 // Recruiter API
 app.use('/recruiter', authValidate, validation.recruiter, recruiter)
 // Message API
