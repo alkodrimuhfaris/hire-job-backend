@@ -27,6 +27,7 @@ app.use('/assets/uploads/', express.static('assets/uploads'))
 
 const auth = require('./routes/auth')
 const worker = require('./routes/worker')
+const home = require('./routes/home')
 // const recuiter = require('./routes/recuiter')
 
 // // attach member router
@@ -38,3 +39,6 @@ const validation = require('./middlewares/roleValidation')
 app.use('/worker', authValidate, validation.worker, worker)
 // Recuiter API
 // app.use('/recuiter', authValidate, validation.recuiter, recuiter)
+
+// Home API
+app.use('/home', authValidate, home)
