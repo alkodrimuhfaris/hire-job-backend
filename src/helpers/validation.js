@@ -64,7 +64,7 @@ module.exports = {
   }),
 
   Skill: Joi.object({
-    name: Joi.string()
+    name: Joi.string().required()
   }),
 
   WorkExperience: Joi.object({
