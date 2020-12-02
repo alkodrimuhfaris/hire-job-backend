@@ -69,7 +69,7 @@ module.exports = {
       return response(res, `Catch: ${err}`, '', 400, false)
     }
   },
-  // adwawdawdawddawdaw
+
   getMessage: async (req, res) => {
     const { id } = req.params
     const myAccount = req.user.id
