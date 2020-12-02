@@ -3,6 +3,7 @@ const { Op } = require('sequelize')
 // const bcrypt = require('bcrypt')
 const response = require('../../helpers/response')
 const joi = require('joi')
+const pagination = require('../../helpers/pagination')
 
 module.exports = {
   // ACCOUNT
@@ -287,33 +288,42 @@ module.exports = {
 
   allCompany: async (req, res) => {
     try {
-      const { search, page, limit, sortBy, sortType } = req.query
+      const { search, sortBy = 'createdAt', sortType = 'DESC' } = req.query
       // searching berdasaran nama compay
+      let results = []
+      let count = 0
+      const path = 'recruiter/company'
+      const { limit, page, offset } = pagination.pagePrep(req.query)
       if (search) {
-        const searching = await Company.findAll({
+        ({ count, rows: results } = await Company.findAndCountAll({
+          limit,
+          offset,
           where: {
             name: {
               [Op.like]: `%${search}%`
             }
           },
           order: [
-            ['createdAt', 'DESC']
+            [sortBy, sortType]
           ]
-        })
-        if (searching.length) {
-          const results = searching
-          return response(res, 'Your searching', { results }, 200, true)
+        }))
+        const pageInfo = pagination.paging(path, req, count, page, limit)
+        if (results.length) {
+          return response(res, 'Your searching', { results, pageInfo }, 200, true)
         } else {
-          return response(res, 'Not found', '', 400, false)
+          return response(res, 'Not found', { pageInfo }, 400, false)
         }
       } else {
-        const results = await Company.findAll({
+        ({ count, rows: results } = await Company.findAndCountAll({
+          limit,
+          offset,
           order: [
-            ['createdAt', 'DESC']
+            [sortBy, sortType]
           ]
-        })
+        }))
+        const pageInfo = pagination.paging(path, req, count, page, limit)
         if (results.length) {
-          return response(res, 'All company', { results }, 200, true)
+          return response(res, 'All company', { results, pageInfo }, 200, true)
         } else {
           return response(res, 'Company not available', 400, false)
         }
