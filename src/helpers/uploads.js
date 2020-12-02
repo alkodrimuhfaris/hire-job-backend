@@ -27,4 +27,4 @@ const options = multer({
   }
 })
 
-module.exports = multer({ storage, options }).single('photo')
+module.exports = options

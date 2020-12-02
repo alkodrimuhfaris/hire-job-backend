@@ -3,7 +3,7 @@ const responseStandart = require('../../helpers/response')
 const schema = require('../../helpers/validation')
 
 const multer = require('multer')
-const options = require('../../helpers/upload')
+const options = require('../../helpers/uploads')
 const upload = options.single('photo')
 
 const accountSchema = schema.Account
