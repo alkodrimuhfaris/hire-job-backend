@@ -21,48 +21,39 @@ module.exports = {
         if (sender === recipient) {
           return response(res, 'You cant send message to your self, use your brain', '', 400, false)
         } else {
-          const checkAllYourMessage = await Message.findAll({
+          // mengupdate isLates sebelum kirim pesan
+          const updateIsLasts = await Message.update({ isLates: 0 }, {
             where: {
               [Op.or]: [
-                { sender },
-                { recipient: sender }
+                {
+                  [Op.and]: [
+                    { sender },
+                    { recipient }
+                  ]
+                },
+                {
+                  [Op.and]: [
+                    { sender: recipient },
+                    { recipient: sender }
+                  ]
+                }
               ]
             }
           })
-          if (checkAllYourMessage.length) {
-            // mengupdate isLates sebelum kirim pesan
-            const updateIsLasts = await Message.update({ isLates: 0 }, {
-              where: {
-                [Op.or]: [
-                  {
-                    [Op.and]: [
-                      { sender },
-                      { recipient }
-                    ]
-                  },
-                  {
-                    [Op.and]: [
-                      { sender: recipient },
-                      { recipient: sender }
-                    ]
-                  }
-                ]
-              }
-            })
-            if (updateIsLasts.length) {
-              const data = {
-                sender, recipient, message, isLates: 1
-              }
-              const results = await Message.create(data)
-              io.emit(recipient, { sender, message })
-              if (results) {
-                return response(res, 'Message has been sent', { message }, 200, true)
-              } else {
-                return response(res, 'Fail to sent message', '', 400, false)
-              }
-            } else {
-              return response(res, 'Fail to update isLates', '', 400, false)
+          if (updateIsLasts.length) {
+            const data = {
+              sender, recipient, message, isLates: 1, unread: true
             }
+            const results = await Message.create(data)
+            const sendEvent = 'send ' + recipient
+            io.emit(sendEvent, { sender, results })
+            if (results) {
+              return response(res, 'Message has been sent', { results }, 200, true)
+            } else {
+              return response(res, 'Fail to sent message', '', 400, false)
+            }
+          } else {
+            return response(res, 'Fail to update isLates', '', 400, false)
           }
         }
       }
@@ -540,6 +531,38 @@ module.exports = {
       }
     } catch (err) {
       return response(res, 'Catch: err', '', 400, false)
+    }
+  },
+  updateRead: async (req, res) => {
+    const { id: recipient } = req.user
+    const { id: sender } = req.params
+    try {
+      const unreadChat = await Message.findAll({
+        where: {
+          sender,
+          recipient,
+          unread: true
+        }
+      })
+      if (!unreadChat.length) {
+        return response(res, 'all chat has been read')
+      }
+      await Message.update(
+        { unread: false },
+        {
+          where: {
+            sender,
+            recipient,
+            unread: true
+          }
+        }
+      )
+      const readEvent = 'read ' + sender
+      io.emit(readEvent, { recipient, read: true })
+      return response(res, 'all recent chat has been updated to read')
+    } catch (err) {
+      console.log(err)
+      return response(res, err.message, { err }, 500, false)
     }
   }
 }
