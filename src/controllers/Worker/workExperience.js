@@ -10,20 +10,25 @@ module.exports = {
   postWorkExperience: async (req, res) => {
     try {
       const result = await workExperienceSchema.required().validateAsync(req.body)
-      const validationFk = await Company.findByPk(result.companyId)
-      if (validationFk !== null) {
-        const data = {
-          userId: req.user.id,
-          companyId: result.companyId,
-          position: result.position,
-          startAt: result.startAt,
-          finishAt: result.finishAt,
-          description: result.description
+      const [company, created] = await Company.findOrCreate({
+        where: { name: result.companyName },
+        defaults: {
+          name: result.companyName
         }
-        await WorkExperience.create(data)
-        return responseStandart(res, 'success create your Work Experience', {})
+      })
+      const data = {
+        userId: req.user.id,
+        companyId: company.id,
+        position: result.position,
+        startAt: result.startAt,
+        finishAt: result.finishAt,
+        description: result.description
+      }
+      await WorkExperience.create(data)
+      if (created) {
+        return responseStandart(res, 'success create your Work Experience and Company', {})
       } else {
-        return responseStandart(res, 'sorry the company you entered is not registered yet', {}, 400, false)
+        return responseStandart(res, 'success create your Work Experience', {})
       }
     } catch (e) {
       return responseStandart(res, e, {}, 400, false)
@@ -33,24 +38,29 @@ module.exports = {
   patchWorkExperience: async (req, res) => {
     try {
       const result = await workExperienceSchema.validateAsync(req.body)
-      const validationFk = await Company.findByPk(result.companyId)
-      if (validationFk !== null) {
-        const data = {
-          userId: req.user.id,
-          companyId: result.companyId,
-          position: result.position,
-          startAt: result.startAt,
-          finishAt: result.finishAt,
-          description: result.description
+      const [company, created] = await Company.findOrCreate({
+        where: { name: result.companyName },
+        defaults: {
+          name: result.companyName
         }
-        await WorkExperience.update(data, {
-          where: {
-            id: req.params.id
-          }
-        })
-        return responseStandart(res, 'success update your Work Experience', {})
+      })
+      const data = {
+        userId: req.user.id,
+        companyId: company.id,
+        position: result.position,
+        startAt: result.startAt,
+        finishAt: result.finishAt,
+        description: result.description
+      }
+      await WorkExperience.update(data, {
+        where: {
+          id: req.params.id
+        }
+      })
+      if (created) {
+        return responseStandart(res, 'success update your Work Experience and create Company', {})
       } else {
-        return responseStandart(res, 'sorry the company you entered is not registered yet', {}, 400, false)
+        return responseStandart(res, 'success update your Work Experience', {})
       }
     } catch (e) {
       return responseStandart(res, e, {}, 400, false)
@@ -60,24 +70,29 @@ module.exports = {
   putWorkExperience: async (req, res) => {
     try {
       const result = await workExperienceSchema.required().validateAsync(req.body)
-      const validationFk = await Company.findByPk(result.companyId)
-      if (validationFk !== null) {
-        const data = {
-          userId: req.user.id,
-          companyId: result.companyId,
-          position: result.position,
-          startAt: result.startAt,
-          finishAt: result.finishAt,
-          description: result.description
+      const [company, created] = await Company.findOrCreate({
+        where: { name: result.companyName },
+        defaults: {
+          name: result.companyName
         }
-        await WorkExperience.update(data, {
-          where: {
-            id: req.params.id
-          }
-        })
-        return responseStandart(res, 'success update your Work Experience', {})
+      })
+      const data = {
+        userId: req.user.id,
+        companyId: company.id,
+        position: result.position,
+        startAt: result.startAt,
+        finishAt: result.finishAt,
+        description: result.description
+      }
+      await WorkExperience.update(data, {
+        where: {
+          id: req.params.id
+        }
+      })
+      if (created) {
+        return responseStandart(res, 'success update your Work Experience and create Company', {})
       } else {
-        return responseStandart(res, 'sorry the company you entered is not registered yet', {}, 400, false)
+        return responseStandart(res, 'success update your Work Experience', {})
       }
     } catch (e) {
       return responseStandart(res, e, {}, 400, false)

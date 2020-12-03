@@ -3,7 +3,7 @@ const responseStandart = require('../../helpers/response')
 const schema = require('../../helpers/validation')
 
 const multer = require('multer')
-const options = require('../../helpers/upload')
+const options = require('../../helpers/uploads')
 const upload = options.single('photo')
 
 const accountSchema = schema.Account
@@ -11,7 +11,7 @@ const accountSchema = schema.Account
 module.exports = {
   getAccount: async (req, res) => {
     try {
-      const data = await User.findAll({
+      const results = await User.findByPk(req.user.id, {
         attributes: [
           'id',
           'name',
@@ -25,14 +25,7 @@ module.exports = {
           'linkedin',
           'bio',
           'photo'
-        ],
-        where: {
-          id: req.user.id
-        }
-      })
-      const results = data.map((item) => {
-        const photo = { URL_photo: process.env.APP_URL + item.photo }
-        return Object.assign({}, item.dataValues, photo)
+        ]
       })
       return responseStandart(res, 'success display user data', {
         results

@@ -118,6 +118,234 @@ Response :
 }
 ```
 
+## Home API
+
+## List User
+
+Request :
+- Method : GET
+- Endpoint : `/home`
+- Header :
+    - Accept: application/json
+- Query Param :
+    - search: string,
+    - page: number || `1`,
+    - limit: number || `10`,
+    - sortBy: string || `createdAt`,
+    - sortType: string || `DESC`,
+
+Response :
+```json
+{
+    "status" : "string",
+    "message" : "string",
+    "pageInfo" : {
+        "count" : "number",
+        "pages" : "number",
+        "limit" : "number",
+        "nextLink" : "string",
+        "prevLink" : "string",
+    },
+    "results" : [
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "WorkSkill": [
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                },
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                }
+            ],
+            "SkillAmount": "integer"
+        },
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "WorkSkill": [
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                },
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                }
+            ],
+            "SkillAmount": "integer"
+        },
+    ]
+}
+```
+
+### Details User
+
+Request :
+- Method : GET
+- Endpoint : `/home/{id_user}`
+- Header :
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string",
+    "results" : {
+        "id" : "integer, PK",
+        "name" : "string",
+        "email": "string, unique",
+        "phoneNumber": "string",
+        "jobTitle" : "string",
+        "company" : "string",
+        "address" : "string",
+        "instagram" : "string",
+        "github" : "string",
+        "linkedin" : "string",
+        "bio" : "string",
+        "photo" : "string",
+        "createdAt" : "date",
+        "updatedAt" : "date",
+        "WorkSkill": [
+            {
+                "id",
+                "workerId",
+                "Skill": {
+                    "id": "integer, PK",
+                    "name": "string",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            },
+            {
+                "id",
+                "workerId",
+                "Skill": {
+                    "id": "integer, PK",
+                    "name": "string",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            }
+        ],
+        "WorkExperience": [
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "companyId" : "integer",
+                "position" : "string",
+                "startAt" : "date",
+                "finishAt" : "date",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+                "Company" : {
+                    "id" : "integer, PK",
+                    "name" : "string",
+                    "field" : "string",
+                    "city" : "string",
+                    "photo" : "string",
+                    "authorId": "integer",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            },
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "companyId" : "integer",
+                "position" : "string",
+                "startAt" : "date",
+                "finishAt" : "date",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+                "Company" : {
+                    "id" : "integer, PK",
+                    "name" : "string",
+                    "field" : "string",
+                    "city" : "string",
+                    "photo" : "string",
+                    "authorId": "integer",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            },
+        ],
+        "Portofolio": [
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "name" : "string",
+                "publicLink" : "string",
+                "repoLink" : "string",
+                "company" : "string",
+                "type" : "boolean",
+                "photo" : "string",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "name" : "string",
+                "publicLink" : "string",
+                "repoLink" : "string",
+                "company" : "string",
+                "type" : "boolean",
+                "photo" : "string",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+        ]
+    },
+}
+```
+
 ## Worker API
 
 ### Get Account
@@ -277,6 +505,13 @@ Request :
 - Endpoint : `/worker/skill/list`
 - Header :
     - Accept: application/json
+- Body :
+
+```json 
+{
+    "name" : "string",
+}
+```
 
 Response :
 
@@ -354,7 +589,7 @@ Request :
 
 ```json 
 {
-    "companyId" : "integer",
+    "companyName" : "string",
     "position" : "string",
     "startAt" : "date",
     "finishAt" : "date",
@@ -383,7 +618,7 @@ Request :
 
 ```json 
 {
-    "companyId" : "integer",
+    "companyName" : "integer",
     "position" : "string",
     "startAt" : "date",
     "finishAt" : "date",
@@ -696,6 +931,90 @@ Response :
 }
 ```
 
+### Home Worker
+
+Request :
+- Method : GET
+- Endpoint : `/worker/home`
+- Header :
+    - Accept: application/json
+- Query Param :
+    - search: string,
+    - page: number || `1`,
+    - limit: number || `10`,
+    - sortBy: string || `name`,
+    - sortType: string || `DESC`,
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string",
+    "pageInfo" : {
+        "count" : "number",
+        "pages" : "number",
+        "limit" : "number",
+        "nextLink" : "string",
+        "prevLink" : "string",
+    },
+    "results" : [
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "Company" : {
+                "id" : "integer, PK",
+                "authorId" : "integer",
+                "name" : "string",
+                "field" : "string",
+                "city" : "string",
+                "photo" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+        },
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "Company" : {
+                "id" : "integer, PK",
+                "authorId" : "integer",
+                "name" : "string",
+                "field" : "string",
+                "city" : "string",
+                "photo" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+        },
+    ]
+}
+```
+
 ## Recruiter API
 
 ### Get Account
@@ -725,13 +1044,6 @@ Response :
         "linkedin" : "string",
         "bio" : "string",
         "photo" : "string",
-        // "Company" : {
-        //     "id" : "integer, PK",
-        //     "name" : "string",
-        //     "field" : "string",
-        //     "city" : "string",
-        //     "photo" : "string",
-        // }
     },
 }
 ```
@@ -759,10 +1071,6 @@ Request :
     "company" : "string",
     "bio" : "string",
     "photo" : "string",
-    // "companyName" : "string",
-    // "companyField" : "string",
-    // "companyCity" : "string",
-    // "companyPhoto" : "string",
 }
 ```
 
@@ -829,6 +1137,99 @@ Response :
     },
 }
 ```
+
+### Home Recruiter
+
+Request :
+- Method : GET
+- Endpoint : `/recruiter/home`
+- Header :
+    - Accept: application/json
+- Query Param :
+    - search: string,
+    - page: number || `1`,
+    - limit: number || `10`,
+    - sortBy: string || `name`,
+    - sortType: string || `DESC`,
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string",
+    "pageInfo" : {
+        "count" : "number",
+        "pages" : "number",
+        "limit" : "number",
+        "nextLink" : "string",
+        "prevLink" : "string",
+    },
+    "results" : [
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "skill" : [
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                }
+            ],
+            "countSkill": "integer"
+        },
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "phoneNumber": "string",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "instagram" : "string",
+            "github" : "string",
+            "linkedin" : "string",
+            "bio" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "skill" : [
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                },
+                {
+                    "id": "integer, PK",
+                    "name": "string"
+                }
+            ],
+            "countSkill": "integer"
+        },
+    ]
+}
 
 ## Message API
 
