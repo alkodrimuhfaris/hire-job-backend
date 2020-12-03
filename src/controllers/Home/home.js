@@ -6,7 +6,9 @@ const qs = require('querystring')
 module.exports = {
   listUser: async (req, res) => {
     try {
-      const { page = 1, limit = 10, search = '', sortBy = 'createdAt', sortType = 'DESC' } = req.query
+      const { page = 1, limit = 10, search = { name: '' }, sortBy = 'createdAt', sortType = 'DESC' } = req.query
+      const searchArr = Object.entries(search)
+      const [[searchKey, searchVal]] = searchArr
       const offset = (page - 1) * limit
       if (req.user.roleId === 3) {
         const { count, rows } = await User.findAndCountAll({
@@ -24,15 +26,13 @@ module.exports = {
               model: WorkerSkill,
               attributes: ['id', 'workerId'],
               include: [Skill],
-              separate: true,
-              distinct: true
+              separate: true
             }
           ],
-          distinct: true,
           where: {
             roleId: 2,
-            name: {
-              [Op.like]: `%${search}%`
+            [searchKey]: {
+              [Op.like]: `%${searchVal}%`
             }
           },
           order: [[sortBy, sortType]],
@@ -128,12 +128,14 @@ module.exports = {
             'createdAt',
             'updatedAt'
           ],
-          include: [Company],
-          distinct: true,
+          include: [{
+            model: Company,
+            separate: true
+          }],
           where: {
             roleId: 3,
-            name: {
-              [Op.like]: `%${search}%`
+            [searchKey]: {
+              [Op.like]: `%${searchVal}%`
             }
           },
           order: [[sortBy, sortType]],
