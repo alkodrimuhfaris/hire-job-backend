@@ -1,23 +1,23 @@
 {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "kodri123",
     "database": "hireJob_development",
-    "host": "127.0.0.1",
+    "host": "54.147.22.87",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": null,
+    "password": "kodri123",
     "database": "hireJob_test",
-    "host": "127.0.0.1",
+    "host": "54.147.22.87",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": null,
+    "password": "kodri123",
     "database": "hireJob_production",
-    "host": "127.0.0.1",
+    "host": "54.147.22.87",
     "dialect": "mysql"
   }
 }

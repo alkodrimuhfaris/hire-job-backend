@@ -159,8 +159,8 @@ Response :
             "updatedAt" : "date",
             "WorkSkill": [
                 {
-                    "id",
-                    "workerId",
+                    "id": "integer",
+                    "workerId": "integer",
                     "Skill": {
                         "id": "integer, PK",
                         "name": "string",
@@ -169,8 +169,8 @@ Response :
                     }
                 },
                 {
-                    "id",
-                    "workerId",
+                    "id": "integer",
+                    "workerId": "integer",
                     "Skill": {
                         "id": "integer, PK",
                         "name": "string",
@@ -193,8 +193,8 @@ Response :
             "updatedAt" : "date",
             "WorkSkill": [
                 {
-                    "id",
-                    "workerId",
+                    "id": "integer",
+                    "workerId": "integer",
                     "Skill": {
                         "id": "integer, PK",
                         "name": "string",
@@ -203,8 +203,8 @@ Response :
                     }
                 },
                 {
-                    "id",
-                    "workerId",
+                    "id": "integer",
+                    "workerId": "integer",
                     "Skill": {
                         "id": "integer, PK",
                         "name": "string",

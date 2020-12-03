@@ -116,11 +116,10 @@ module.exports = {
                   bio
                 }
                 //  console.log(data)
-                const results = await User.update(data, {
-                  where: { id }
-                })
+                const user = await User.findByPk(id)
+                const results = await user.update(data)
                 if (results) {
-                  return response(res, 'Edit has been updated', '', 200, true)
+                  return response(res, 'Edit has been updated', { results }, 200, true)
                 } else {
                   return response(res, 'Fail to update', '', 400, false)
                 }
@@ -202,11 +201,10 @@ module.exports = {
                   photo
                 }
                 //  console.log(data)
-                const results = await User.update(data, {
-                  where: { id }
-                })
+                const user = await User.findByPk(id)
+                const results = await user.update(data)
                 if (results) {
-                  return response(res, 'Edit has been updated', '', 200, true)
+                  return response(res, 'Edit has been updated', { results }, 200, true)
                 } else {
                   return response(res, 'Fail to update', '', 400, false)
                 }
