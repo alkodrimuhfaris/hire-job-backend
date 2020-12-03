@@ -219,6 +219,133 @@ Response :
 }
 ```
 
+### Details User
+
+Request :
+- Method : GET
+- Endpoint : `/home/{id_user}`
+- Header :
+    - Accept: application/json
+
+Response :
+
+```json 
+{
+    "status" : "string",
+    "message" : "string",
+    "results" : {
+        "id" : "integer, PK",
+        "name" : "string",
+        "email": "string, unique",
+        "phoneNumber": "string",
+        "jobTitle" : "string",
+        "company" : "string",
+        "address" : "string",
+        "instagram" : "string",
+        "github" : "string",
+        "linkedin" : "string",
+        "bio" : "string",
+        "photo" : "string",
+        "createdAt" : "date",
+        "updatedAt" : "date",
+        "WorkSkill": [
+            {
+                "id",
+                "workerId",
+                "Skill": {
+                    "id": "integer, PK",
+                    "name": "string",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            },
+            {
+                "id",
+                "workerId",
+                "Skill": {
+                    "id": "integer, PK",
+                    "name": "string",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            }
+        ],
+        "WorkExperience": [
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "companyId" : "integer",
+                "position" : "string",
+                "startAt" : "date",
+                "finishAt" : "date",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+                "Company" : {
+                    "id" : "integer, PK",
+                    "name" : "string",
+                    "field" : "string",
+                    "city" : "string",
+                    "photo" : "string",
+                    "authorId": "integer",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            },
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "companyId" : "integer",
+                "position" : "string",
+                "startAt" : "date",
+                "finishAt" : "date",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+                "Company" : {
+                    "id" : "integer, PK",
+                    "name" : "string",
+                    "field" : "string",
+                    "city" : "string",
+                    "photo" : "string",
+                    "authorId": "integer",
+                    "createdAt" : "date",
+                    "updatedAt" : "date",
+                }
+            },
+        ],
+        "Portofolio": [
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "name" : "string",
+                "publicLink" : "string",
+                "repoLink" : "string",
+                "company" : "string",
+                "type" : "boolean",
+                "photo" : "string",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+            {
+                "id" : "integer, PK",
+                "userId" : "integer",
+                "name" : "string",
+                "publicLink" : "string",
+                "repoLink" : "string",
+                "company" : "string",
+                "type" : "boolean",
+                "photo" : "string",
+                "description" : "string",
+                "createdAt" : "date",
+                "updatedAt" : "date",
+            },
+        ]
+    },
+}
+```
+
 ## Worker API
 
 ### Get Account
