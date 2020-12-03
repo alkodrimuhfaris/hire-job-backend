@@ -502,7 +502,7 @@ Response :
 
 Request :
 - Method : POST
-- Endpoint : `/worker/skill/list`
+- Endpoint : `/worker/list/skill`
 - Header :
     - Accept: application/json
 - Body :
@@ -526,7 +526,7 @@ Response :
 
 Request :
 - Method : GET
-- Endpoint : `/worker/skill/list`
+- Endpoint : `/worker/list/skill`
 - Header :
     - Accept: application/json
 - Query Param :
