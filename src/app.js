@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 })
 
 // provide static file
-app.use('/assets/uploads/', express.static('./src/assets/uploads'))
+app.use('/assets/uploads/', express.static('./assets/uploads'))
 
 const auth = require('./routes/auth')
 const worker = require('./routes/worker')
