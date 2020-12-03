@@ -29,6 +29,7 @@ module.exports = {
               include: [Skill]
             }
           ],
+          distinct: true,
           where: {
             roleId: 2,
             [searchKey]: {
