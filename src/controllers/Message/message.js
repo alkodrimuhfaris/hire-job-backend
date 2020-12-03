@@ -4,7 +4,7 @@ const joi = require('joi')
 const io = require('../../app')
 const response = require('../../helpers/response')
 const pagination = require('../../helpers/pagination')
-// testing
+
 module.exports = {
   sendMessage: async (req, res) => {
     try {
