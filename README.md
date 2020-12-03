@@ -66,7 +66,7 @@ Response :
 
 ### Validation Reset Password
 
-- Method : GET
+- Method : POST
 - Endpoint : `/auth/reset/password`
 - Header :
     - Content-Type: application/json
@@ -128,7 +128,7 @@ Request :
 - Header :
     - Accept: application/json
 - Query Param :
-    - search: string,
+    - search[column]: string,
     - page: number || `1`,
     - limit: number || `10`,
     - sortBy: string || `createdAt`,
@@ -250,8 +250,8 @@ Response :
         "updatedAt" : "date",
         "WorkSkill": [
             {
-                "id",
-                "workerId",
+                "id": "integer",
+                "workerId": "integer",
                 "Skill": {
                     "id": "integer, PK",
                     "name": "string",
@@ -260,8 +260,8 @@ Response :
                 }
             },
             {
-                "id",
-                "workerId",
+                "id": "integer",
+                "workerId": "integer",
                 "Skill": {
                     "id": "integer, PK",
                     "name": "string",
@@ -502,7 +502,7 @@ Response :
 
 Request :
 - Method : POST
-- Endpoint : `/worker/skill/list`
+- Endpoint : `/worker/list/skill`
 - Header :
     - Accept: application/json
 - Body :
@@ -526,7 +526,7 @@ Response :
 
 Request :
 - Method : GET
-- Endpoint : `/worker/skill/list`
+- Endpoint : `/worker/list/skill`
 - Header :
     - Accept: application/json
 - Query Param :
