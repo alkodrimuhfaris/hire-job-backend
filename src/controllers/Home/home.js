@@ -11,6 +11,7 @@ module.exports = {
       const [[searchKey, searchVal]] = searchArr
       const offset = (page - 1) * limit
       if (req.user.roleId === 3) {
+        console.log('masuk role id 3')
         const { count, rows } = await User.findAndCountAll({
           attributes: [
             'id',
@@ -25,8 +26,7 @@ module.exports = {
             {
               model: WorkerSkill,
               attributes: ['id', 'workerId'],
-              include: [Skill],
-              separate: true
+              include: [Skill]
             }
           ],
           where: {
@@ -129,9 +129,9 @@ module.exports = {
             'updatedAt'
           ],
           include: [{
-            model: Company,
-            separate: true
+            model: Company
           }],
+          distinct: true,
           where: {
             roleId: 3,
             [searchKey]: {
@@ -205,7 +205,8 @@ module.exports = {
         }
       }
     } catch (e) {
-      return responseStandart(res, e, {}, 400, false)
+      console.log(e)
+      return responseStandart(res, e.message, {}, 400, false)
     }
   },
 
