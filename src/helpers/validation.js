@@ -19,7 +19,8 @@ module.exports = {
       .required(),
     password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
-      .required()
+      .required(),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required()
   }),
 
   SignupRecruiter: Joi.object({
@@ -33,6 +34,7 @@ module.exports = {
     password: Joi.string()
       .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
       .required(),
+    confirmPassword: Joi.string().valid(Joi.ref('password')).required(),
     company: Joi.string().required(),
     jobTitle: Joi.string().required()
   }),

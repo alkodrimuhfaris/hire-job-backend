@@ -1,6 +1,6 @@
 const route = require('express').Router()
 const recruiter = require('../controllers/Recruiters/recruiter')
-const uploads = require('../helpers/uploadRama')
+const uploads = require('../helpers/upload')
 
 // account
 route.get('/account', recruiter.getRecruiterAccount)

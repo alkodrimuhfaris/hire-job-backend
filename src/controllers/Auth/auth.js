@@ -1,4 +1,4 @@
-const { User } = require('../../models')
+const { User, Company } = require('../../models')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const schema = require('../../helpers/validation')
@@ -90,6 +90,16 @@ module.exports = {
       if (!validate.length) {
         const user = await User.create(data)
         if (user) {
+          if (parseInt(req.params.id) === 3) {
+            const dataCompany = {
+              name: user.dataValues.company,
+              authorId: user.dataValues.id
+            }
+            const company = await Company.create(dataCompany)
+            if (!company) {
+              return responseStandart(res, 'Create company failed!', {}, 500, false)
+            }
+          }
           return responseStandart(res, 'Signup Success', {})
         } else {
           return responseStandart(res, 'Signup failed', {}, 500, false)
