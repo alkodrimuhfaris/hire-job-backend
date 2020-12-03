@@ -20,12 +20,19 @@ module.exports = {
             'updatedAt'
           ],
           include: [
-            { model: WorkerSkill, attributes: ['id', 'workerId'], include: [Skill] }
+            {
+              model: WorkerSkill,
+              attributes: ['id', 'workerId'],
+              include: [Skill],
+              separate: true,
+              distinct: true
+            }
           ],
+          distinct: true,
           where: {
             roleId: 2,
             name: {
-              [Op.startsWith]: search
+              [Op.like]: `%${search}%`
             }
           },
           order: [[sortBy, sortType]],
@@ -122,10 +129,11 @@ module.exports = {
             'updatedAt'
           ],
           include: [Company],
+          distinct: true,
           where: {
             roleId: 3,
             name: {
-              [Op.startsWith]: search
+              [Op.like]: `%${search}%`
             }
           },
           order: [[sortBy, sortType]],
