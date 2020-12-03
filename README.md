@@ -118,6 +118,107 @@ Response :
 }
 ```
 
+## Home API
+
+## List User
+
+Request :
+- Method : GET
+- Endpoint : `/home`
+- Header :
+    - Accept: application/json
+- Query Param :
+    - search: string,
+    - page: number || `1`,
+    - limit: number || `10`,
+    - sortBy: string || `createdAt`,
+    - sortType: string || `DESC`,
+
+Response :
+```json
+{
+    "status" : "string",
+    "message" : "string",
+    "pageInfo" : {
+        "count" : "number",
+        "pages" : "number",
+        "limit" : "number",
+        "nextLink" : "string",
+        "prevLink" : "string",
+    },
+    "results" : [
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "WorkSkill": [
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                },
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                }
+            ],
+            "SkillAmount": "integer"
+        },
+        {
+            "id" : "integer, PK",
+            "name" : "string",
+            "email": "string, unique",
+            "jobTitle" : "string",
+            "company" : "string",
+            "address" : "string",
+            "photo" : "string",
+            "createdAt" : "date",
+            "updatedAt" : "date",
+            "WorkSkill": [
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                },
+                {
+                    "id",
+                    "workerId",
+                    "Skill": {
+                        "id": "integer, PK",
+                        "name": "string",
+                        "createdAt" : "date",
+                        "updatedAt" : "date",
+                    }
+                }
+            ],
+            "SkillAmount": "integer"
+        },
+    ]
+}
+```
+
 ## Worker API
 
 ### Get Account
