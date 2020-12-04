@@ -80,7 +80,7 @@ module.exports = {
       const { rows } = await Skill.findAndCountAll({
         where: {
           name: {
-            [Op.startsWith]: search
+            [Op.substring]: search
           }
         }
       })
@@ -89,7 +89,7 @@ module.exports = {
           results: rows
         })
       } else {
-        return responseStandart(res, 'Skill not found', {})
+        return responseStandart(res, 'Skill not found', { results: [] })
       }
     } catch (e) {
       return responseStandart(res, e, {}, 400, false)

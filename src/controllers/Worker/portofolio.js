@@ -28,7 +28,7 @@ module.exports = {
           company: result.company,
           type: result.type,
           description: result.description,
-          photo: req.file === undefined ? undefined : req.file.path
+          photo: req.file === undefined ? undefined : `uploads/${req.file.filename}`
         }
         await Portofolio.create(data)
         return responseStandart(res, 'success create your Portofolio', {})
@@ -55,7 +55,7 @@ module.exports = {
           company: result.company,
           type: result.type,
           description: result.description,
-          photo: req.file === undefined ? undefined : req.file.path
+          photo: req.file === undefined ? undefined : `uploads/${req.file.filename}`
         }
         const filteredObject = Object.keys(data).reduce((results, key) => {
           if (data[key] !== undefined) results[key] = data[key]
@@ -90,7 +90,7 @@ module.exports = {
           company: result.company,
           type: result.type,
           description: result.description,
-          photo: req.file === undefined ? undefined : req.file.path
+          photo: req.file === undefined ? undefined : `uploads/${req.file.filename}`
         }
         const filteredObject = Object.keys(data).reduce((results, key) => {
           if (data[key] !== undefined) results[key] = data[key]
