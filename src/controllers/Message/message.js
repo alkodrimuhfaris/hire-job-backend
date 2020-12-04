@@ -182,7 +182,6 @@ module.exports = {
                   'github',
                   'linkedin',
                   'address',
-                  'company',
                   'bio',
                   'roleId'
                 ]
