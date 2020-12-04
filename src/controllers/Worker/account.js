@@ -55,7 +55,7 @@ module.exports = {
           address: result.address,
           company: result.company,
           bio: result.bio,
-          photo: req.file === undefined ? undefined : req.file.path
+          photo: req.file === undefined ? undefined : `uploads/${req.file.filename}`
         }
         const filteredObject = Object.keys(user).reduce((results, key) => {
           if (user[key] !== undefined) results[key] = user[key]
@@ -93,7 +93,7 @@ module.exports = {
           address: result.address,
           company: result.company,
           bio: result.bio,
-          photo: req.file === undefined ? undefined : req.file.path
+          photo: req.file === undefined ? undefined : `uploads/${req.file.filename}`
         }
         const filteredObject = Object.keys(user).reduce((results, key) => {
           if (user[key] !== undefined) results[key] = user[key]
