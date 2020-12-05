@@ -42,7 +42,7 @@ module.exports = {
               ? sequelize.fn('isnull', sequelize.col('User.name'))
               : sortBy === 'skill'
                 ? [WorkerSkill, Skill, 'createdAt', 'DESC']
-                : sequelize.fn('isnull', sequelize.col(sortBy)),
+                : sequelize.fn('isnull', sequelize.col('User.' + sortBy)),
             sortBy === 'skill' ? [WorkerSkill, Skill, 'name', sortType] : [sortBy, sortType]
           ],
           offset: parseInt(offset) || 0,
@@ -148,7 +148,7 @@ module.exports = {
             }
           },
           order: [
-            sequelize.fn('isnull', sequelize.col(sortBy)),
+            sortBy === 'field' ? sequelize.fn('isnull', sequelize.col(sortBy)) : sequelize.fn('isnull', sequelize.col('User.' + sortBy)),
             sortBy !== 'field' ? [sortBy, sortType] : [Company, sortBy, sortType],
             ['company', 'ASC']
           ],
