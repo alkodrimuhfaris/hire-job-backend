@@ -64,7 +64,7 @@ module.exports = {
                   pages: Math.ceil(count / limit),
                   limit: parseInt(limit),
                   nextLink:
-                  page <= Math.ceil(count / limit)
+                  page < Math.ceil(count / limit)
                     ? process.env.APP_URL +
                     `home/?${qs.stringify({
                       ...req.query,
@@ -94,7 +94,7 @@ module.exports = {
                     pages: Math.ceil(count / limit),
                     limit: parseInt(limit),
                     nextLink:
-                    page <= Math.ceil(count / limit)
+                    page < Math.ceil(count / limit)
                       ? process.env.APP_URL +
                       `home/?${qs.stringify({
                         ...req.query,
@@ -152,7 +152,7 @@ module.exports = {
                 pages: Math.ceil(count / limit),
                 limit: parseInt(limit),
                 nextLink:
-                    page <= Math.ceil(count / limit)
+                    page < Math.ceil(count / limit)
                       ? process.env.APP_URL +
                       `home/?${qs.stringify({
                         ...req.query,
@@ -182,7 +182,7 @@ module.exports = {
                   pages: Math.ceil(count / limit),
                   limit: parseInt(limit),
                   nextLink:
-                      page <= Math.ceil(count / limit)
+                      page < Math.ceil(count / limit)
                         ? process.env.APP_URL +
                         `home/?${qs.stringify({
                           ...req.query,
