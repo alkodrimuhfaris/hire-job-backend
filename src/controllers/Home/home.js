@@ -2,6 +2,7 @@ const { User, WorkExperience, WorkerSkill, Skill, Portofolio, Company } = requir
 const { Op } = require('sequelize')
 const responseStandart = require('../../helpers/response')
 const qs = require('qs')
+const sequelize = require('sequelize')
 
 module.exports = {
   listUser: async (req, res) => {
@@ -36,7 +37,14 @@ module.exports = {
               [Op.like]: `%${searchVal}%`
             }
           },
-          order: [[sortBy, sortType]],
+          order: [
+            sortBy === 'name'
+              ? sequelize.fn('isnull', sequelize.col('User.name'))
+              : sortBy === 'skill'
+                ? [WorkerSkill, Skill, 'createdAt', 'DESC']
+                : sequelize.fn('isnull', sequelize.col(sortBy)),
+            sortBy === 'skill' ? [WorkerSkill, Skill, 'name', sortType] : [sortBy, sortType]
+          ],
           offset: parseInt(offset) || 0,
           limit: parseInt(limit)
         })
@@ -139,7 +147,11 @@ module.exports = {
               [Op.like]: `%${searchVal}%`
             }
           },
-          order: [[sortBy, sortType]],
+          order: [
+            sequelize.fn('isnull', sequelize.col(sortBy)),
+            sortBy !== 'field' ? [sortBy, sortType] : [Company, sortBy, sortType],
+            ['company', 'ASC']
+          ],
           offset: parseInt(offset) || 0,
           limit: parseInt(limit)
         })
