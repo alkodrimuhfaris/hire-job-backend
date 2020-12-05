@@ -1,7 +1,7 @@
 const { User, WorkExperience, WorkerSkill, Skill, Portofolio, Company } = require('../../models')
 const { Op } = require('sequelize')
 const responseStandart = require('../../helpers/response')
-const qs = require('querystring')
+const qs = require('qs')
 
 module.exports = {
   listUser: async (req, res) => {
