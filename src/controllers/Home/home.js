@@ -72,7 +72,7 @@ module.exports = {
                     })}`
                     : null,
                   prevLink:
-                  page > Math.ceil(count / limit)
+                  page > 0 && page <= Math.ceil(count / limit)
                     ? process.env.APP_URL +
                     `home/?${qs.stringify({
                       ...req.query,
@@ -102,7 +102,7 @@ module.exports = {
                       })}`
                       : null,
                     prevLink:
-                    page > Math.ceil(count / limit)
+                    page > 0 && page <= Math.ceil(count / limit)
                       ? process.env.APP_URL +
                       `home/?${qs.stringify({
                         ...req.query,
@@ -160,7 +160,7 @@ module.exports = {
                       })}`
                       : null,
                 prevLink:
-                    page > Math.ceil(count / limit)
+                    page > 0 && page <= Math.ceil(count / limit)
                       ? process.env.APP_URL +
                       `home/?${qs.stringify({
                         ...req.query,
@@ -190,7 +190,7 @@ module.exports = {
                         })}`
                         : null,
                   prevLink:
-                      page > Math.ceil(count / limit)
+                      page > 0 && page <= Math.ceil(count / limit)
                         ? process.env.APP_URL +
                         `home/?${qs.stringify({
                           ...req.query,
