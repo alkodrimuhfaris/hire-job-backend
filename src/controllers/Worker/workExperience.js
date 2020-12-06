@@ -138,7 +138,7 @@ module.exports = {
 
   listWorkExperience: async (req, res) => {
     try {
-      const { page = 1, limit = 10, search = '', sortBy = 'createdAt', sortType = 'DESC' } = req.query
+      const { page = 1, limit = 10, search = '', sortBy = 'startAt', sortType = 'DESC' } = req.query
       const offset = (page - 1) * limit
       const { count, rows } = await WorkExperience.findAndCountAll({
         include: [
