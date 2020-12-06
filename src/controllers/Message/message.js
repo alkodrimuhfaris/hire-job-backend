@@ -46,7 +46,7 @@ module.exports = {
             }
             const results = await Message.create(data)
             const sendEvent = 'send ' + recipient
-            io.emit(sendEvent, { sender, results })
+            io.emit(sendEvent, { sender, message: results })
             if (results) {
               return response(res, 'Message has been sent', { results }, 200, true)
             } else {
