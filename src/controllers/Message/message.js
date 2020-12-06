@@ -45,7 +45,7 @@ module.exports = {
               sender, recipient, message, isLates: 1, unread: true
             }
             const results = await Message.create(data)
-            const senderData = await User.fondByPk(sender, {
+            const senderData = await User.findByPk(sender, {
               attributes: {
                 exclude: [
                   'password',
