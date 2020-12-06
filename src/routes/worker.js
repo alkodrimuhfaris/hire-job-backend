@@ -29,6 +29,7 @@ router.put('/skill/:id', skill.putSkill)
 router.get('/skill/:id', skill.getSkill)
 router.get('/skill', skill.listSkill)
 router.delete('/skill/:id', skill.deleteSkill)
+router.delete('/delete/skill/:id', skill.deleteSkillUser)
 
 router.post('/list/skill', workerSkill.postWorkSkill)
 router.get('/list/skill', workerSkill.listWorkerSkill)
