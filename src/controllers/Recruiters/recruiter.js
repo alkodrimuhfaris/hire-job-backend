@@ -48,11 +48,11 @@ module.exports = {
         if (req.file === undefined) {
           const schema = joi.object({
             name: joi.string(),
-            email: joi.string(),
+            email: joi.string().email(),
             phoneNumber: joi.string(),
-            instagram: joi.string(),
-            github: joi.string(),
-            linkedin: joi.string(),
+            instagram: joi.string().uri(),
+            github: joi.string().uri(),
+            linkedin: joi.string().uri(),
             jobTilte: joi.string(),
             address: joi.string(),
             company: joi.string(),
@@ -132,11 +132,11 @@ module.exports = {
           const photo = `uploads/${req.file.filename}`
           const schema = joi.object({
             name: joi.string(),
-            email: joi.string(),
+            email: joi.string().email(),
             phoneNumber: joi.string(),
-            instagram: joi.string(),
-            github: joi.string(),
-            linkedin: joi.string(),
+            instagram: joi.string().uri(),
+            github: joi.string().uri(),
+            linkedin: joi.string().uri(),
             jobTilte: joi.string(),
             address: joi.string(),
             company: joi.string(),
