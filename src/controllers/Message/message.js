@@ -45,8 +45,21 @@ module.exports = {
               sender, recipient, message, isLates: 1, unread: true
             }
             const results = await Message.create(data)
+            const senderData = await User.findByPk(sender, {
+              attributes: {
+                exclude: [
+                  'password',
+                  'instagram',
+                  'github',
+                  'linkedin',
+                  'address',
+                  'bio',
+                  'roleId'
+                ]
+              }
+            })
             const sendEvent = 'send ' + recipient
-            io.emit(sendEvent, { sender, results })
+            io.emit(sendEvent, { sender, message: results, senderData })
             if (results) {
               return response(res, 'Message has been sent', { results }, 200, true)
             } else {

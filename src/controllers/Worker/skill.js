@@ -1,4 +1,4 @@
-const { Skill } = require('../../models')
+const { Skill, WorkerSkill } = require('../../models')
 const { Op } = require('sequelize')
 const responseStandart = require('../../helpers/response')
 const schema = require('../../helpers/validation')
@@ -76,13 +76,14 @@ module.exports = {
 
   listSkill: async (req, res) => {
     try {
-      const { search = '' } = req.query
+      const { search = '', sortBy = 'name', sortType = 'ASC' } = req.query
       const { rows } = await Skill.findAndCountAll({
         where: {
           name: {
             [Op.substring]: search
           }
-        }
+        },
+        order: [[sortBy, sortType]]
       })
       if (rows.length) {
         return responseStandart(res, 'success to display Skill', {
@@ -107,6 +108,25 @@ module.exports = {
         return responseStandart(res, 'success delete Skill', {})
       } else {
         return responseStandart(res, 'Skill not found', {}, 404, false)
+      }
+    } catch (e) {
+      return responseStandart(res, e, {}, 400, false)
+    }
+  },
+
+  deleteSkillUser: async (req, res) => {
+    const { id: workerId } = req.user
+    try {
+      const results = await WorkerSkill.destroy({
+        where: {
+          id: req.params.id,
+          workerId
+        }
+      })
+      if (results) {
+        return responseStandart(res, 'success delete worker skill', {})
+      } else {
+        return responseStandart(res, 'You dont have that skill!', {}, 404, false)
       }
     } catch (e) {
       return responseStandart(res, e, {}, 400, false)

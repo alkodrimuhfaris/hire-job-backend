@@ -38,12 +38,17 @@ module.exports = {
   patchWorkExperience: async (req, res) => {
     try {
       const result = await workExperienceSchema.validateAsync(req.body)
-      const [company, created] = await Company.findOrCreate({
-        where: { name: result.companyName },
-        defaults: {
-          name: result.companyName
-        }
-      })
+      console.log(result)
+      let company = {}
+      let created = false
+      if (result.companyName) {
+        ([company, created] = await Company.findOrCreate({
+          where: { name: result.companyName },
+          defaults: {
+            name: result.companyName
+          }
+        }))
+      }
       const data = {
         userId: req.user.id,
         companyId: company.id,
@@ -52,17 +57,18 @@ module.exports = {
         finishAt: result.finishAt,
         description: result.description
       }
-      await WorkExperience.update(data, {
+      const results = await WorkExperience.update(data, {
         where: {
           id: req.params.id
         }
       })
       if (created) {
-        return responseStandart(res, 'success update your Work Experience and create Company', {})
+        return responseStandart(res, 'success update your Work Experience and create Company', { results })
       } else {
-        return responseStandart(res, 'success update your Work Experience', {})
+        return responseStandart(res, 'success update your Work Experience', { results })
       }
     } catch (e) {
+      console.log(e)
       return responseStandart(res, e, {}, 400, false)
     }
   },
@@ -138,7 +144,7 @@ module.exports = {
 
   listWorkExperience: async (req, res) => {
     try {
-      const { page = 1, limit = 10, search = '', sortBy = 'createdAt', sortType = 'DESC' } = req.query
+      const { page = 1, limit = 10, search = '', sortBy = 'startAt', sortType = 'DESC' } = req.query
       const offset = (page - 1) * limit
       const { count, rows } = await WorkExperience.findAndCountAll({
         include: [
@@ -197,7 +203,7 @@ module.exports = {
       } else {
         return responseStandart(
           res,
-          'unable to display Work Experience',
+          'There is no work experiences in here',
           {
             pageInfo: [
               {
@@ -222,9 +228,7 @@ module.exports = {
                       : null
               }
             ]
-          },
-          400,
-          false
+          }
         )
       }
     } catch (e) {

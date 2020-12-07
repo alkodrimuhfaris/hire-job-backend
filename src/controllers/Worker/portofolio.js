@@ -175,7 +175,7 @@ module.exports = {
       } else {
         return responseStandart(
           res,
-          'unable to display Portofolio',
+          'There is no portofolios in here',
           {
             pageInfo: [
               {
@@ -200,9 +200,7 @@ module.exports = {
                       : null
               }
             ]
-          },
-          400,
-          false
+          }
         )
       }
     } catch (e) {

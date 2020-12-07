@@ -26,8 +26,9 @@ module.exports = {
           include: [
             {
               model: WorkerSkill,
-              attributes: ['id', 'workerId'],
-              include: [Skill]
+              attributes: ['id', 'workerId', 'skillId'],
+              include: [Skill],
+              required: sortBy === 'skill'
             }
           ],
           distinct: true,
@@ -37,14 +38,14 @@ module.exports = {
               [Op.like]: `%${searchVal}%`
             }
           },
-          order: [
-            sortBy === 'name'
-              ? sequelize.fn('isnull', sequelize.col('User.name'))
-              : sortBy === 'skill'
-                ? [WorkerSkill, Skill, 'createdAt', 'DESC']
-                : sequelize.fn('isnull', sequelize.col('User.' + sortBy)),
-            sortBy === 'skill' ? [WorkerSkill, Skill, 'name', sortType] : [sortBy, sortType]
-          ],
+          order: sortBy === 'skill'
+            ? [
+                [WorkerSkill, 'skillId', 'DESC']
+              ]
+            : [
+                sequelize.fn('isnull', sequelize.col('User.' + sortBy)),
+                [sortBy, sortType]
+              ],
           offset: parseInt(offset) || 0,
           limit: parseInt(limit)
         })
@@ -80,7 +81,7 @@ module.exports = {
                     })}`
                     : null,
                   prevLink:
-                  page > 0 && page <= Math.ceil(count / limit)
+                  page > 1 && page <= Math.ceil(count / limit)
                     ? process.env.APP_URL +
                     `home/?${qs.stringify({
                       ...req.query,
@@ -110,7 +111,7 @@ module.exports = {
                       })}`
                       : null,
                     prevLink:
-                    page > 0 && page <= Math.ceil(count / limit)
+                    page > 1 && page <= Math.ceil(count / limit)
                       ? process.env.APP_URL +
                       `home/?${qs.stringify({
                         ...req.query,
@@ -172,7 +173,7 @@ module.exports = {
                       })}`
                       : null,
                 prevLink:
-                    page > 0 && page <= Math.ceil(count / limit)
+                    page > 1 && page <= Math.ceil(count / limit)
                       ? process.env.APP_URL +
                       `home/?${qs.stringify({
                         ...req.query,
@@ -202,7 +203,7 @@ module.exports = {
                         })}`
                         : null,
                   prevLink:
-                      page > 0 && page <= Math.ceil(count / limit)
+                      page > 1 && page <= Math.ceil(count / limit)
                         ? process.env.APP_URL +
                         `home/?${qs.stringify({
                           ...req.query,
